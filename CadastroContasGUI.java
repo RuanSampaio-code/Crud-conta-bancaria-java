@@ -84,13 +84,28 @@ public class CadastroContasGUI {
                 //ação com base na escolha do usuário 
                 if (result == JOptionPane.OK_OPTION) {
                     // Variáveis são usadas para processar os dados coletados
-                    String numConta = numContaField.getText();
-                    String numAgencia = agenciaField.getText();
-                    String saldoInput = saldoField.getText(); // Armazenar a entrada como string 
-                    String nomecliente = clienteField.getText();
-                    String nomebanco = bancoField.getText();
+                    
+                    
+                    try { 
+                        String numConta = numContaField.getText();
+                        String numAgencia = agenciaField.getText();
+                        String saldoInput = saldoField.getText(); // Armazenar a entrada como string 
+                        
+                        String nomecliente = clienteField.getText();
+                        String nomebanco = bancoField.getText();
+
+                        //convertendo campo para valor
+                        double valorSaldo = Double.parseDouble(saldoInput);
+
+                        gerenciador.adicionarConta(new ContaCorrente(numConta, numAgencia, valorSaldo, new Cliente(nomecliente), new Banco(nomebanco)));
+                        JOptionPane.showMessageDialog(null, "Conta Corrente cadastrada com sucesso!");
                 
-                    // Validar se saldo contém apenas números
+                    } catch (NumberFormatException  x){
+                        JOptionPane.showMessageDialog(null, "Erro: Digite um valor numérico válido para o saldo.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                    
+                    
+                    /* // Validar se saldo contém apenas números
                     if (saldoInput.matches("\\d+(\\.\\d+)?")) { 
                         
                         // Converter a entrada de saldo para um valor double
@@ -101,7 +116,7 @@ public class CadastroContasGUI {
                         JOptionPane.showMessageDialog(null, "Conta Corrente cadastrada com sucesso!");
                     } else {
                         JOptionPane.showMessageDialog(null, "Erro: Digite um valor numérico válido para o saldo.", "Erro", JOptionPane.ERROR_MESSAGE);
-                    }
+                    } */
                 } 
                
             }
@@ -165,7 +180,6 @@ public class CadastroContasGUI {
         btnAlterarConta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
                 
 
                 String contaAntiga = JOptionPane.showInputDialog("Digite o número da Conta que deseja alterar:");
